@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Toronto Personals</title>
+<meta name="description" content="The lonely hearts club of Toronto. Friends we personally vouch for.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Figtree:ital,wght@0,400;0,600;0,800;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Layout: a single column of profiles styled as streetcar transfer slips; everything around them stays quiet. */
+:root {
+  --bg: #eef1f4;
+  --paper: #fbfcfd;
+  --ink: #16202b;
+  --muted: #5b6876;
+  --line: #c9d2db;
+  --red: #d6262f;
+  --red-ink: #ffffff;
+  --display: "Bagel Fat One", "Arial Black", system-ui, sans-serif;
+  --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Courier Prime", "Courier New", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f151c; --paper: #18212b; --ink: #e8edf2; --muted: #9aa7b4;
+    --line: #2c3946; --red: #ff5a5f; --red-ink: #1a0607; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f151c; --paper: #18212b; --ink: #e8edf2; --muted: #9aa7b4;
+  --line: #2c3946; --red: #ff5a5f; --red-ink: #1a0607; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg); color: var(--ink);
+  font: 400 1rem/1.6 var(--body);
+}
+a { color: var(--red); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
+
+.wrap {
+  max-width: 760px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 64px;
+  display: grid; gap: 40px;
+}
+
+/* masthead */
+header.mast { padding-block: 48px 8px; display: grid; gap: 14px; }
+.route {
+  display: inline-flex; align-items: center; gap: 10px; justify-self: start;
+  font: 700 .78rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+}
+.route b { background: var(--red); color: var(--red-ink); padding: 5px 8px; border-radius: 4px; letter-spacing: .04em; }
+h1 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(3rem, 11vw, 6rem); line-height: .9; margin: 0;
+  color: var(--red); text-wrap: balance;
+}
+.tag { font-size: 1.15rem; color: var(--muted); margin: 0; max-width: 40ch; }
+nav.top { display: flex; flex-wrap: wrap; gap: 8px 20px; font-weight: 600; }
+nav.top a { color: var(--ink); }
+
+h2 {
+  font-family: var(--display); font-weight: 400; font-size: clamp(1.7rem, 5vw, 2.3rem);
+  line-height: 1.05; margin: 0; text-wrap: balance;
+}
+.label { font: 700 .74rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+/* transfer slip */
+.list { display: grid; gap: 32px; }
+.slip {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 6px;
+  display: grid; grid-template-columns: 56px 1fr; overflow: hidden; position: relative;
+}
+.stub {
+  background: var(--red); color: var(--red-ink);
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+  padding-block: 14px; font: 700 .72rem/1 var(--mono); letter-spacing: .14em;
+  border-right: 2px dashed var(--paper);
+}
+.stub .v { writing-mode: vertical-rl; transform: rotate(180deg); text-transform: uppercase; white-space: nowrap; }
+.stub .no { font-size: 1.05rem; letter-spacing: 0; }
+.body { padding: 22px 24px 24px; display: grid; gap: 16px; min-width: 0; }
+.head { display: grid; grid-template-columns: 88px 1fr; gap: 16px; align-items: center; }
+.photo {
+  width: 88px; aspect-ratio: 1; max-width: 100%; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--line);
+  display: grid; place-items: center; font: 400 2rem/1 var(--display); color: var(--muted);
+  object-fit: cover;
+}
+.head h3 { font: 800 1.35rem/1.2 var(--body); margin: 0 0 6px; text-wrap: balance; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font: 700 .74rem/1 var(--mono); letter-spacing: .04em;
+  border: 1px solid var(--line); border-radius: 999px; padding: 5px 9px; color: var(--muted);
+}
+dl { margin: 0; display: grid; gap: 12px; }
+dt { font: 700 .74rem/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
+dd { margin: 3px 0 0; max-width: 65ch; }
+.review dd { font-style: italic; }
+.ask {
+  border-top: 2px dashed var(--line); padding-top: 16px; display: grid; gap: 10px;
+}
+.ask p { margin: 0; }
+.ask .q { font-weight: 800; font-size: 1.08rem; }
+.contact { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.addr { font-family: var(--mono); background: var(--bg); padding: 4px 8px; border-radius: 4px; user-select: all; overflow-wrap: anywhere; }
+button, .btn {
+  font: 700 .85rem/1 var(--body); cursor: pointer;
+  background: var(--ink); color: var(--paper); border: 0; border-radius: 4px; padding: 9px 12px;
+  text-decoration: none; display: inline-block;
+}
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.example-flag { font: 700 .7rem/1 var(--mono); color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+
+/* other sections */
+section.plain { display: grid; gap: 14px; }
+section.plain p { margin: 0; max-width: 65ch; }
+.faq { display: grid; gap: 10px; }
+details { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 12px 16px; }
+summary { font-weight: 800; cursor: pointer; }
+details p { margin: 8px 0 0; }
+form.notify { display: flex; flex-wrap: wrap; gap: 8px; }
+form.notify input {
+  flex: 1 1 220px; min-width: 0; font: 1rem var(--body); padding: 10px 12px;
+  border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink);
+}
+form.notify button { background: var(--red); color: var(--red-ink); padding: 12px 16px; }
+.note { color: var(--muted); font-size: .92rem; min-height: 1.4em; }
+footer { color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line); padding-top: 20px; }
+
+@media (max-width: 480px) {
+  .slip { grid-template-columns: 40px 1fr; }
+  .body { padding: 18px 16px 20px; }
+  .head { grid-template-columns: 64px 1fr; gap: 12px; }
+  .photo { width: 64px; font-size: 1.5rem; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .slip { transition: transform .2s ease; }
+  .slip:hover { transform: rotate(-.4deg); }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="mast">
+    <span class="route"><b>506</b> lonely hearts line · westbound</span>
+    <h1>Toronto Personals</h1>
+    <p class="tag">Single friends we'd personally vouch for. Hand-picked, not swiped.</p>
+    <nav class="top">
+      <a href="#hearts">the lonely hearts</a>
+      <a href="#about">about</a>
+      <a href="#faqs">faqs</a>
+    </nav>
+  </header>
+
+  <section id="hearts" class="list" aria-label="Profiles"></section>
+
+  <section class="plain" aria-labelledby="notify-h">
+    <span class="label">More singles coming</span>
+    <h2 id="notify-h">Get emailed when we add a friend</h2>
+    <form class="notify" id="notify">
+      <label for="email" class="label" hidden>Email</label>
+      <input id="email" type="email" required placeholder="you@example.com" autocomplete="email">
+      <button type="submit">Notify me</button>
+    </form>
+    <p class="note" id="notify-note" aria-live="polite"></p>
+  </section>
+
+  <section id="about" class="plain">
+    <span class="label">About</span>
+    <h2>A bit about Toronto Personals</h2>
+    <p>This doesn't scale, and that's fine. We're not trying to fix dating in the GTA. We're trying to find love for our friends specifically. If you'd like to date one of them, welcome.</p>
+    <p>Every person here has promised that if we find them their person, we get a speech at the wedding. Help us get that speech.</p>
+    <p>— The Editor</p>
+  </section>
+
+  <section id="faqs" class="plain">
+    <span class="label">FAQs</span>
+    <h2>Questions, sort of</h2>
+    <div class="faq">
+      <details><summary>Is this a front for a dating app?</summary><p>No. This is just for the love of the game.</p></details>
+      <details><summary>Are there singles in my area?</summary><p>Yes. They're right here, mostly west of Yonge.</p></details>
+      <details><summary>Why do all the photos have the same patio in the background?</summary><p>That's office hours. Same patio on College, every Thursday. If you want something from us, meet us there.</p></details>
+      <details><summary>Can I be added?</summary><p>Maybe. We only list friends we'd vouch for, so we'll need to meet you first. Send a note to the address below.</p></details>
+      <details><summary>These weren't my frequently asked questions.</summary><p>That isn't a question.</p></details>
+    </div>
+  </section>
+
+  <footer>Made with love in Toronto. Not affiliated with the TTC, who would not approve.</footer>
+</div>
+
+<script>
+/* ───── EDIT YOUR FRIENDS HERE ─────
+   Add one object per friend. `photo` can be a URL to an image file you
+   host next to this page (e.g. "photos/maya.jpg"); leave it "" for initials. */
+const CONTACT_EMAIL = "date@torontopersonals.ca";
+
+const FRIENDS = [
+  {
+    name: "Maya", headline: "bike courier seeking someone to get lost with",
+    age: 27, height: "5'6\"", hood: "Kensington", stop: "Spadina & Nassau", photo: "",
+    summary: "Knows every laneway between Bathurst and Spadina and has opinions about all of them. Runs a zine about ravines. Will bring a thermos of tea to anything, including a nightclub. Can fix your bike, will not fix your attitude.",
+    reviewer: "her roommate Priya",
+    review: "Maya is the person who turns 'want to grab a coffee' into a six-hour walk to the Bluffs. She remembers everything you tell her and brings it up months later at exactly the right moment.",
+    intentions: "Something real. Long walks that turn into long-term.",
+    seeking: "26 to 33. Curious, outdoorsy-ish, owns at least one good jacket. Bonus points if you have a favourite ravine and can defend it.",
+    question: "What's your most controversial Toronto opinion?",
+  },
+  {
+    name: "Dev", headline: "dinner-party host seeking co-host",
+    age: 30, height: "6'0\"", hood: "Leslieville", stop: "Queen & Carlaw", photo: "",
+    summary: "Software engineer by day, will feed twelve people out of a galley kitchen by night. Plays rec-league ultimate badly but enthusiastically. Has watched every Raptors game since 2019 and still talks about the parade.",
+    reviewer: "his friend Sam",
+    review: "Dev is the glue of our friend group. He's the one who remembers your birthday and books the reservation. A deeply kind guy who is somehow also very funny about it.",
+    intentions: "Long-term. Someone to build a life and a dinner-party guest list with.",
+    seeking: "27 to 34. Warm, ambitious, a little chaotic. Someone who'll help him plan the menu and then change it the day of.",
+    question: "Describe your perfect Sunday in the city, hour by hour.",
+  },
+  {
+    name: "Ines", headline: "architect seeking someone who reads the plaques",
+    age: 29, height: "5'9\"", hood: "The Annex", stop: "Bathurst Station", photo: "",
+    summary: "Stops on every walk to read the heritage plaques out loud. Draws buildings in a tiny sketchbook. Fluent in French and Portuguese, conversational in sarcasm. Will drag you to Doors Open and make it fun.",
+    reviewer: "her ex, Marcus",
+    review: "Great taste, great structure, excellent load-bearing walls. Occasionally renovates without asking. 9/10, would recommend.",
+    intentions: "Open to a slow burn that turns into something serious.",
+    seeking: "28 to 36. Thoughtful, nerdy about something, good at asking questions. Must tolerate stopping every forty metres.",
+    question: "What building in Toronto would you save from demolition, and why?",
+  },
+];
+
+/* ───── rendering (no need to edit below) ───── */
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function slip(f, i) {
+  const pic = f.photo
+    ? `<img class="photo" src="${esc(f.photo)}" alt="Photo of ${esc(f.name)}">`
+    : `<div class="photo" aria-hidden="true">${esc(f.name[0])}</div>`;
+  return `
+  <article class="slip">
+    <div class="stub" aria-hidden="true">
+      <span class="no">${String(i + 1).padStart(2, "0")}</span>
+      <span class="v">${esc(f.hood)}</span>
+      <span>✶</span>
+    </div>
+    <div class="body">
+      <div class="head">
+        ${pic}
+        <div>
+          <h3>${esc(f.headline)}</h3>
+          <div class="meta">
+            <span class="chip">${esc(f.name)}, ${esc(f.age)}</span>
+            <span class="chip">${esc(f.height)}</span>
+            <span class="chip">nearest stop: ${esc(f.stop)}</span>
+          </div>
+        </div>
+      </div>
+      <dl>
+        <div><dt>Summary</dt><dd>${esc(f.summary)}</dd></div>
+        <div class="review"><dt>Review from ${esc(f.reviewer)}</dt><dd>"${esc(f.review)}"</dd></div>
+        <div><dt>Intentions</dt><dd>${esc(f.intentions)}</dd></div>
+        <div><dt>Seeking</dt><dd>${esc(f.seeking)}</dd></div>
+      </dl>
+      <div class="ask">
+        <span class="label">Wants to know</span>
+        <p class="q">${esc(f.question)}</p>
+        <p>Email your answer with the subject line <strong>"date ${esc(f.name.toLowerCase())}"</strong>:</p>
+        <div class="contact">
+          <span class="addr">${esc(CONTACT_EMAIL)}</span>
+          <button type="button" class="btn ghost" data-copy="${esc(CONTACT_EMAIL)}">Copy email</button>
+        </div>
+      </div>
+      <span class="example-flag">Example profile · replace with your friend</span>
+    </div>
+  </article>`;
+}
+
+document.getElementById("hearts").innerHTML = FRIENDS.map(slip).join("");
+
+document.addEventListener("click", async e => {
+  const b = e.target.closest("[data-copy]");
+  if (!b) return;
+  try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = "Copied"; }
+  catch { const a = b.previousElementSibling; const r = document.createRange(); r.selectNodeContents(a);
+          const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Selected, press copy"; }
+  setTimeout(() => (b.textContent = "Copy email"), 1800);
+});
+
+document.getElementById("notify").addEventListener("submit", e => {
+  e.preventDefault();
+  /* Hook this up to a newsletter service (Buttondown, Mailchimp) or a Google Form when you host the site. */
+  document.getElementById("notify-note").textContent =
+    "Sign-ups aren't connected yet. Once the site is live, this will add you to the list.";
+});
+</script>
+</body>
+
+</html>
+
